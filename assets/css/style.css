@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+
+*{
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #FAE4D8;
+}
+
+.btn-success{
+    width: 200px;
+}
+
+.container-student {
+    background-color: #921B38;
+    color: white;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 20px;
+}
