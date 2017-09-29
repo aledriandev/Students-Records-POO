@@ -1,30 +1,31 @@
-const app = {
+function Student (name, teachPoints, lifePoints) {
+    this.name = name;
+    this.teachPoints = teachPoints;
+    this.lifePoints = lifePoints;
+    this.status = 'ACTIVE';
+}
 
-    students: [],
+class App {
+    constructor () {
+        this.students = [];
+    }                                                                                                                                       
 
-    listStudents: function () {
-        return app.students;
-    },
+    listStudents () {
+        return this.students;
+    }
 
-    Student: function (name, teachPoints, lifePoints) {
-        this.name = name;
-        this.teachPoints = teachPoints;
-        this.lifePoints = lifePoints;
-        this.status = 'ACTIVE';
-    },
-
-    addStudent: function () {
+    addStudent() {
         let name = prompt("Nombre de la estudiante").toUpperCase();
         let teachPoints = parseInt(prompt("Porcentaje Técnico"));
         let lifePoints = parseInt(prompt("Porcentaje Habilidades Socio-Emocionales"));
         if (name != null && teachPoints != NaN && lifePoints != NaN){
-            let student = new app.Student(name, teachPoints, lifePoints);
-            app.students.push(student);
+            let student = new Student(name, teachPoints, lifePoints);
+            this.students.push(student);
             return student;
         }
-    },
+    }
 
-    showStudent: function (student) {
+    showStudent (student) {
         let result = '';
         if (student != undefined) {
             result = `<div class='row container'>
@@ -39,56 +40,59 @@ const app = {
                             </div>`;
         }
         return result;
-    },
+    }
 
-    showListStudents: function (students) {
+    showListStudents (students) {
         var result = "";
         for(var i in students)
         {
-            result += app.showStudent(students[i]);
+            result += this.showStudent(students[i]);
         }
         return result;
-    },
+    }
 
-    dropout: function (students) {
+    dropout (students) {
         students = students.filter(function(student){
             let condition = (student.teachPoints + student.lifePoints)/2
             return (condition >= 70 );
         });
         return students;
-    },
+    }
 
-    employability: function (students) {
+    employability (students) {
         let filtered = students.filter(function(student){
             let condition = (student.teachPoints + student.lifePoints)/2
             return (condition >= 70 );
         });
         return filtered;
-    },
+    }
 
-    setup: function(){
+    init(){
         document.getElementById("addStudent").onclick=(event)=>{
             event.preventDefault();
-            let student = app.addStudent();
-            $('#container-students').html(app.showStudent(student));
+            let student = this.addStudent();
+            $('#container-students').html(this.showStudent(student));
         };
         document.getElementById("printAll").onclick=(event)=>{
             event.preventDefault();
-            let students = app.listStudents();
-            $('#container-students').html(app.showListStudents(students));
+            let students = this.listStudents();
+            $('#container-students').html(this.showListStudents(students));
         };
         document.getElementById("updateDropout").onclick=(event)=>{
             event.preventDefault();
-            app.students = app.dropout(app.students);
-            $('#container-students').html(app.showListStudents(app.students));
+            this.students = this.dropout(this.students);
+            $('#container-students').html(this.showListStudents(this.students));
         };
         document.getElementById("runEmployability").onclick=(event)=>{
             event.preventDefault();
-            let students = app.listStudents();
-            let studentsTop = app.employability(students);
-            $('#container-students').html(app.showListStudents(studentsTop));
+            let students = this.listStudents();
+            let studentsTop = this.employability(students);
+            $('#container-students').html(this.showListStudents(studentsTop));
         };
     }
 }
 
-app.setup();
+$(document).ready(()=>{
+    var app = new App ();
+    app.init();
+})
